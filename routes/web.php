@@ -18,12 +18,12 @@ use App\Http\Controllers\ParticipacaoController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
 
 
 // Rotas para CRUD de Pessoa
-Route::get('/', PessoaController::class .'@index')->name('pessoa.index');
+Route::get('/pessoa', PessoaController::class . '@index')->name('pessoa.index');
 Route::get('/pessoa/create', PessoaController::class . '@create')->name('pessoa.create');
 Route::post('/pessoa', PessoaController::class .'@store')->name('pessoa.store');
 Route::get('/pessoa/{pessoa}', [PessoaController::class, 'show'])->name('pessoa.show');

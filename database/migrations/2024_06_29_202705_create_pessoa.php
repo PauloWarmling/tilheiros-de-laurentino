@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->integer('age');
-            $table->integer('number');
-            $table->string('address')->nullable();
+            $table->string('number');
             $table->timestamps();
         });
     }

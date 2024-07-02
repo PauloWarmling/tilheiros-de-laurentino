@@ -1,0 +1,167 @@
+@import "@fontsource/inter/300.css";  // Light
+@import "@fontsource/inter/400.css";  // Regular
+@import "@fontsource/inter/500.css";  // Medium
+@import "@fontsource/inter/600.css";  // Semi-Bold
+@import "@fontsource/inter/700.css";  // Bold
+
+
+header {
+    background: #010817;
+    height: 140px;
+}
+.container {
+    width: 100%;
+    max-width: 1030px;
+    margin: 0 auto;
+}
+.main-menu {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    &.container {
+        .brand {
+            width: 100%;
+            max-width: 270px;
+            height: 70px;
+            object-fit: cover;
+        }
+    }
+
+    ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 0;
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            a {
+                color: #FFF;
+                text-align: center;
+                font-family: Inter;
+                font-size: 22px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                position: relative;
+                &:hover {
+                    color: #FFCB2A;
+                    transition: all 0.3s;
+                }
+                &::after {
+                    content: "";
+                    display: block;
+                    width: 0%;
+                    transition: all 0.3s;
+                    background: #FFCB2A;
+                    height: 2px;
+                    position: absolute;
+                    bottom: -3px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+        }
+    }
+}
+
+.wrapper {
+    min-height: calc(100vh - 140px);
+    .table {
+        th {
+            color: #FFF;
+            text-align: center;
+            font-family: Inter;
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            position: relative;
+        }
+        tbody {
+            tr {
+                color: black;
+                text-align: center;
+                font-family: Inter;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                padding-top: 15px;
+                transition: all .3s;
+                &:hover {
+                    transform: scale(1.05);
+                    background: rgb(56, 59, 58);
+                    transition: all .3s;
+                }
+                &:not(.table-danger) {
+                    color: #FFBD59;
+                }
+            }
+
+        }
+    }
+    .edit, .add, .list {
+        color: #FFBD59;
+        text-align: center;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        padding-top: 15px;
+        margin-top: 80px;
+    }
+}
+
+.card {
+    background: lightgray;
+}
+
+main {
+    background: #122730;
+    overflow: hidden;
+    .bloco-1 {
+        padding-top: 80px;
+        padding-bottom: 80px;
+        &.content {
+            h1 {
+                color: #ffffff;
+                text-align: center;
+                font-family: Inter;
+                font-size: 64px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: normal;
+                span {
+                    color: #FFBD59;
+                    text-align: center;
+                    font-family: Inter;
+                    font-size: 64px;
+                    font-style: normal;
+                    font-weight: 800;
+                    line-height: normal;
+                }
+            }
+            h2 {
+                color: #FFBD59;
+                text-align: center;
+                font-family: Inter;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                padding-top: 15px;
+            }
+            .carousel {
+                max-height: 500px;
+            }
+        }
+    }
+}

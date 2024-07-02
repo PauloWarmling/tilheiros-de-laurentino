@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pessoa;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PessoaController extends Controller
 {
@@ -30,19 +32,30 @@ class PessoaController extends Controller
             'name' => 'required|max:200',
             'email' => 'required|email',
             'age' => 'required|integer',
-            'number' => 'required|integer',
+            'number' => 'required|string',
         ]);
     
         $pessoa = new Pessoa();
     
-        // Set other attributes
         $pessoa->name = $request->input('name');
         $pessoa->email = $request->input('email');
         $pessoa->age = $request->input('age');
         $pessoa->number = $request->input('number');
-        $pessoa->save();
-        return redirect()->route('pessoa.index')
-            ->with('success', 'Pessoa created successfully.');
+    
+        try {
+            $pessoa->save();
+            return redirect()->route('pessoa.index')
+                ->with('success', 'Pessoa created successfully.');
+        } catch (\Exception $e) {
+            // Delete uploaded photo if save fails
+            if (isset($photoPath)) {
+                Storage::delete('public/' . $photoPath);
+            }
+    
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Failed to create Pessoa: ' . $e->getMessage()]);
+        }
     }
 
 
@@ -65,42 +78,33 @@ class PessoaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required|max:20',
-        'email' => 'required|email',
-        'age' => 'required|integer',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
-
-    $pessoa = Pessoa::find($id);
+    {
+        $request->validate([
+            'name' => 'required|max:200',
+            'email' => 'required|email',
+            'age' => 'required|integer',
+            'number' => 'required|string',
+        ]);
     
-    // Check if a photo was uploaded
-    if ($request->hasFile('photo')) {
-        // Get the file from the request
-        $photo = $request->file('photo');
-        
-        // Generate a unique name for the photo
-        $photoName = time() . '_' . $photo->getClientOriginalName();
-        
-        // Move the photo to the desired directory
-        $photo->move(public_path('photos'), $photoName);
-        
-        // Store the new photo path
-        $pessoa->photo = $photoName;
+        try {
+            $pessoa = Pessoa::findOrFail($id); // Find the Pessoa by ID
+    
+            // Update the attributes
+            $pessoa->name = $request->input('name');
+            $pessoa->email = $request->input('email');
+            $pessoa->age = $request->input('age');
+            $pessoa->number = $request->input('number');
+    
+            $pessoa->save(); // Save the updated Pessoa
+    
+            return redirect()->route('pessoa.index')
+                ->with('success', 'Pessoa updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Failed to update Pessoa: ' . $e->getMessage()]);
+        }
     }
-    
-    // Update other attributes
-    $pessoa->name = $request->input('name');
-    $pessoa->email = $request->input('email');
-    $pessoa->age = $request->input('age');
-    
-    // Save the updated person record
-    $pessoa->save();
-
-    return redirect()->route('pessoa.index')
-        ->with('success', 'Pessoa updated successfully.');
-}
 
 
     /**
